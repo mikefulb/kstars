@@ -1328,7 +1328,7 @@ bool Capture::resumeSequence()
 	if (Options::captureLogging())
 	  qDebug() << "Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
 	
-        if (refocusEveryNCheck->isEnabled() && getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
+        if (refocusEveryNCheck->isEnabled() && refocusEveryNCheck->isChecked() && getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
             isRefocus = true;
         else
             isRefocus = false;
@@ -2105,7 +2105,7 @@ void Capture::prepareJob(SequenceJob *job)
     }
 
     // If we haven't performed a single autofocus yet, we stop
-    if ((!job->isPreview() && Options::enforceRefocusEveryN()) && (isAutoFocus == false && firstAutoFocus == true))
+    if (!job->isPreview() && Options::enforceRefocusEveryN() && (isAutoFocus == false && firstAutoFocus == true))
     {
         appendLogText(i18n(
             "Manual scheduled focusing is not supported. Run Autofocus process before trying again."));
@@ -2425,8 +2425,14 @@ void Capture::setFocusStatus(FocusState state)
 
     if (focusState == FOCUS_COMPLETE)
     {
+        // enable option to have a refocus event occur if HFR goes over threshold
         autofocusCheck->setEnabled(true);
         HFRPixels->setEnabled(true);
+
+        // also set scheduled refocus enabled
+        refocusEveryNCheck->setEnabled(true);
+        refocusEveryN->setEnabled(true);
+
         if (focusHFR > 0 && firstAutoFocus && HFRPixels->value() == 0 && fileHFR == 0)
         {
             firstAutoFocus = false;

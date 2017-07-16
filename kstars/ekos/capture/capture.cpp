@@ -1327,7 +1327,7 @@ bool Capture::resumeSequence()
 
 	if (Options::captureLogging())
 	  qDebug() << "Elapsed Time (secs): " << getRefocusEveryNTimerElapsedSec() << " Requested Interval (secs): " << refocusEveryN->value()*60;
-	
+
         if (refocusEveryNCheck->isEnabled() && refocusEveryNCheck->isChecked() && getRefocusEveryNTimerElapsedSec() >= refocusEveryN->value()*60)
             isRefocus = true;
         else

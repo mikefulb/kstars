@@ -1846,6 +1846,10 @@
          <label>Use Auto Dithering when guiding.</label>
          <default>false</default>
       </entry>
+      <entry name="DitherVia" type="UInt">
+         <label>How to execute dither operations (0 guider, 1 unguided using slews).</label>
+         <default>0</default>
+      </entry>
       <entry name="AOLimit" type="Double">
          <label>The Adaptive Optics unit is utilized if the guiding deviation is less than this limit in arcseconds. Once exceeded, mechanical guiding is utilized.</label>
          <default>2</default>
